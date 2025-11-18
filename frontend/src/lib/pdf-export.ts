@@ -352,7 +352,7 @@ export class PDFExportService {
 }
 
 // Export function
-export async function exportPredictionToPDF(data: PredictionData, imageData?: string) {
+export async function exportPredictionToPDF(data: PredictionData, imageData: string) {
   const pdfService = new PDFExportService();
   await pdfService.exportPrediction(data, imageData);
 }

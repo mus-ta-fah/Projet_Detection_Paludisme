@@ -49,6 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const response = await authApi.me();
           setUser(response);
           localStorage.setItem("user", JSON.stringify(response));
+          setIsLoading(false);
         } catch (error) {
           console.error("Failed to load user:", error);
           localStorage.removeItem("access_token");

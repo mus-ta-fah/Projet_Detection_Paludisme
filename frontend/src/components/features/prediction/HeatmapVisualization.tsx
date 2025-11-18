@@ -11,27 +11,15 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export function HeatmapVisualization() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+type HeatmapVisualizationProps = {
+  preview: string | null; // L’URL ou base64 à afficher et sur laquelle générer la heatmap
+}; 
+export function HeatmapVisualization({ preview }: HeatmapVisualizationProps) {
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [opacity, setOpacity] = useState([70]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setShowHeatmap(false);
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const generateHeatmap = () => {
     if (!preview) return;
@@ -115,57 +103,35 @@ export function HeatmapVisualization() {
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Upload */}
-          <div
-            className={cn(
-              "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
-              preview
-                ? "border-primary bg-primary/5"
-                : "border-muted-foreground/25 hover:border-primary"
-            )}
-            onClick={() =>
-              document.getElementById("heatmap-file-input")?.click()
-            }
-          >
-            <input
-              id="heatmap-file-input"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            {preview ? (
-              <div className="space-y-4">
-                <div className="relative inline-block">
-                  <Image
-                    width={500}
-                    height={500}
-                    ref={imgRef}
-                    src={preview}
-                    alt="Preview"
-                    className="max-h-64 rounded-lg"
-                    crossOrigin="anonymous"
-                  />
-                  {showHeatmap && (
-                    <canvas
-                      ref={canvasRef}
-                      className="absolute top-0 left-0 rounded-lg"
-                      style={{
-                        opacity: opacity[0] / 100,
-                        mixBlendMode: "multiply",
-                      }}
-                    />
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                <p className="text-sm font-medium">Upload image for heatmap</p>
-              </div>
-            )}
-          </div>
-
+        
+        {/* Image + canvas superposés */}
+        {preview && (
+            <div className="relative inline-block">
+              <img
+                ref={imgRef}
+                src={preview}
+                alt="Preview"
+                style={{ width: 256, height: 256, borderRadius: 8 }}
+                crossOrigin="anonymous"
+                onLoad={() => setShowHeatmap(false)} // permet de régénérer si l'image change
+              />
+              {/* Toujours afficher le canvas quand une image est présente */}
+              <canvas
+                ref={canvasRef}
+                width={256}
+                height={256}
+                className="absolute top-0 left-0"
+                style={{
+                  opacity: showHeatmap ? opacity[0] / 100 : 0,
+                  mixBlendMode: "multiply",
+                  pointerEvents: "none",
+                  borderRadius: 8,
+                  transition: "opacity 0.2s",
+                }}
+              />
+            </div>
+          )}
+          
           {/* Controls */}
           {preview && (
             <div className="space-y-4">

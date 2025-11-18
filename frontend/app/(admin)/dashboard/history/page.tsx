@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Search, Trash2, Eye, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { formatPercentage } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -26,6 +26,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Prediction } from '@/types';
+import { ExportButtons } from '@/components/features/history/ExportButtons';
 
 export default function HistoryPage() {
   const [page, setPage] = useState(0);
@@ -80,10 +81,11 @@ export default function HistoryPage() {
             View and manage your past predictions
           </p>
         </div>
-        <Button variant="outline">
+        {/* <Button variant="outline">
           <Download className="mr-2 h-4 w-4" />
           Export CSV
-        </Button>
+        </Button> */}
+        <ExportButtons data={filteredPredictions} />
       </div>
 
       {/* Filters */}

@@ -1,5 +1,12 @@
 'use client';
 
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from "@/components/ui/sidebar"
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -25,7 +32,7 @@ const navigation = [
   { name: 'About', href: '/dashboard/about', icon: FileText },
 ];
 
-export function Sidebar() {
+export function AppSidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
@@ -90,6 +97,15 @@ export function Sidebar() {
           Logout
         </Button>
       </div>
+
+      <Sidebar>
+      <SidebarHeader />
+      <SidebarContent>
+        <SidebarGroup />
+        <SidebarGroup />
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
     </div>
   );
 }

@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Upload, X, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn, formatPercentage, getErrorMessage } from '@/lib/utils';
-import { PredictionResponse, PredictionResult } from '@/types';
+import { PredictionResult } from '@/types';
 import Image from 'next/image';
 
 interface FileWithPreview {
@@ -22,6 +22,15 @@ interface FileWithPreview {
   status: 'pending' | 'uploading' | 'success' | 'error';
   result?: PredictionResult;
   error?: string;
+}
+
+export interface PredictionResponse {
+  success: boolean;
+  prediction_id: number;
+  result: PredictionResult;
+  filename: string;
+  inference_time_ms: number;
+  created_at: string;
 }
 
 export function BatchUploader() {
@@ -36,9 +45,11 @@ export function BatchUploader() {
       toast.success(`${data.successful} images analyzed successfully!`);
       
       // Update files with results
+      // Le backend renomme les fichiers donc on ne peut pas lier le résultat avec filename.
+      // On suppose que l'ordre des résultats correspond à l'ordre d'envoi des fichiers (attention à la robustesse si le backend change !)
       if (data.results) {
-        setFiles(prev => prev.map(f => {
-          const result = data.results.find((r: PredictionResponse) => r.image_filename === f.file.name);
+        setFiles(prev => prev.map((f, i) => {
+          const result = data.results[i];
           if (result?.success) {
             return { ...f, status: 'success', result: result.result };
           }
