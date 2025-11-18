@@ -10,3 +10,5 @@ app/ml/models/
 *.h5
 saved_model/
 
+uploads/
+
