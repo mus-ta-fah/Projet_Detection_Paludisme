@@ -1,0 +1,12 @@
+venv/
+.venv/
+
+.env
+
+# Modèles IA
+app/ml/cache/
+app/ml/models/
+*.keras
+*.h5
+saved_model/
+

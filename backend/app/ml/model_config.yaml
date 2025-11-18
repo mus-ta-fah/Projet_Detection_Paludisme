@@ -1,0 +1,34 @@
+models:
+  - id: "model_1"
+    name: "CNN Simple"
+    format: "keras"
+    remote: "huggingface"
+    url: "https://huggingface.co/mugeekwara/malaria-models/blob/main/Model_1_Simple.keras"
+    local_path: "app/ml/cache/downloaded/Model_1_Simple.keras"
+    accuracy: 0.9521
+    inference_time_ms: 50
+    parameters: "~500K"
+    use_case: "Analyse rapide, ressources limitées"
+
+  - id: "model_2"
+    name: "CNN BatchNorm"
+    format: "keras"
+    remote: "huggingface"
+    url: "https://huggingface.co/mugeekwara/malaria-models/blob/main/best_malaria_model.keras"
+    local_path: "app/ml/cache/downloaded/best_malaria_model.keras"
+    accuracy: 0.9569
+    inference_time_ms: 80
+    parameters: "~1M"
+    use_case: "Maximum de précision"
+    is_default: true
+
+  - id: "model_3"
+    name: "Deep VGG"
+    format: "keras"
+    remote: "huggingface"
+    url: "https://huggingface.co/mugeekwara/malaria-models/blob/main/Model_3_Deep_VGG.keras"
+    local_path: "app/ml/cache/downloaded/Model_3_Deep_VGG.keras"
+    accuracy: 0.9565
+    inference_time_ms: 120
+    parameters: "~2M"
+    use_case: "Équilibre vitesse/précision"

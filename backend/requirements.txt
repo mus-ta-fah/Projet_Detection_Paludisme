@@ -1,0 +1,75 @@
+# ========================================
+# BACKEND REQUIREMENTS
+# FastAPI + ML + Database
+# ========================================
+
+# Core Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+bcrypt==4.1.2
+
+# Validation
+pydantic==2.5.3
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# ML & Data Science
+tensorflow==2.15.0
+keras==2.15.0
+numpy==1.24.3
+opencv-python==4.8.1.78
+pillow==10.1.0
+scikit-learn==1.3.2
+matplotlib==3.10.7
+
+# PDF Generation
+reportlab==4.0.9
+weasyprint==60.2
+
+# Email
+fastapi-mail==1.4.1
+
+# YAML Config
+pyyaml==6.0.1
+
+# HTTP Client (for hospital integration)
+httpx==0.26.0
+aiohttp==3.9.1
+
+# Monitoring & Logging
+python-json-logger==2.0.7
+
+# CORS
+fastapi-cors==0.0.6
+
+# Image processing
+imageio==2.33.1
+
+# Utils
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+httpx==0.26.0
+
+# Development
+black==24.1.1
+flake8==7.0.0
+mypy==1.8.0
+
+# Production
+gunicorn==21.2.0
