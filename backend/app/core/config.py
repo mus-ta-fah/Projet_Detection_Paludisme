@@ -22,15 +22,11 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     
     # CORS
-    ALLOWED_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3000",
-        "https://projet-detection-paludisme.vercel.app"
-    ]
+    ALLOWED_ORIGINS: List[str] = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
     
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/malaria_db"
+    DATABASE_URL: str = "postgresql+asyncpg://malaria_detection_db_yfm7_user:npelNS2E8luRVcVN2baQyTWq2SxKwVnW@dpg-d4eh2tjgk3sc73bo4n30-a.oregon-postgres.render.com/malaria_detection_db_yfm7"
     DATABASE_ECHO: bool = False
     
     # JWT Authentication
