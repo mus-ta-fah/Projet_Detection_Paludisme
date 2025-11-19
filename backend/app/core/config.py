@@ -2,6 +2,8 @@
 # CONFIGURATION
 # ========================================
 
+import json
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 from typing import List
@@ -22,7 +24,16 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     
     # CORS
-    ALLOWED_ORIGINS: List[str] = os.getenv("ALLOWED_ORIGINS", "").split(",")
+    ALLOWED_ORIGINS: List[str] = []
+
+    @field_validator("ALLOWED_ORIGINS", mode="before")
+    def split_origins(cls, v):
+        if isinstance(v, str):
+            try:
+                return json.loads(v)
+            except Exception:
+                return [o.strip() for o in v.split(",") if o.strip()]
+        return v
 
     
     # Database
