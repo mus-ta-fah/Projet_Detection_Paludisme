@@ -2,7 +2,6 @@
 # CONFIGURATION
 # ========================================
 
-from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 from typing import List
@@ -23,14 +22,13 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     
     # CORS
-    ALLOWED_ORIGINS: List[str] = []
+    ALLOWED_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3000",
+        "https://projet-detection-paludisme.vercel.app"
+    ]
     
-    @field_validator("ALLOWED_ORIGINS", mode="before")
-    def parse_origins(cls, v):
-        if isinstance(v, str):
-            return [o.strip() for o in v.split(",")]
-        return v
-        
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/malaria_db"
     DATABASE_ECHO: bool = False
