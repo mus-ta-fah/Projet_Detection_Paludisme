@@ -34,12 +34,12 @@ export default function HistoryPage() {
   const [selectedPrediction, setSelectedPrediction] = useState<Prediction | undefined>(
     undefined
   );
-  const pageSize = 5;
+  const [pageSize, setPageSize] = useState(5);
   const queryClient = useQueryClient();
 
   // Fetch history
   const { data, isLoading } = useQuery({
-    queryKey: ['predictions', 'history', page],
+    queryKey: ['predictions', 'history', page, pageSize],
     queryFn: () => predictionsApi.getHistory(page * pageSize, pageSize),
   });
 
@@ -68,6 +68,14 @@ export default function HistoryPage() {
   const handleDelete = (id: number) => {
     if (confirm('Are you sure you want to delete this prediction?')) {
       deleteMutation.mutate(id);
+    }
+  };
+
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSize = parseInt(e.target.value, 10);
+    if (!isNaN(newSize) && newSize > 0) {
+      setPage(0);
+      setPageSize(newSize);
     }
   };
 
@@ -176,6 +184,21 @@ export default function HistoryPage() {
                   ))}
                 </TableBody>
               </Table>
+
+              <div className="flex items-center gap-2 my-4">
+                <label htmlFor="pageSize" className="text-sm text-muted-foreground">
+                  Pages size:
+                </label>
+                <Input
+                  id="pageSize"
+                  type="number"
+                  min={1}
+                  step={1}
+                  value={pageSize}
+                  onChange={handlePageSizeChange}
+                  className="w-20"
+                />
+              </div>
 
               {/* Pagination */}
               <div className="flex items-center justify-between mt-4">
